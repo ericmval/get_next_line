@@ -95,7 +95,7 @@ char	*ft_strchr(const char *s, int c)
 // devuleve puntero a la primera coincidencia
 // de c en s, si no encuentra nada devuelve null
 
-char	*ft_strdup(const char *s)
+/*char	*ft_strdup(const char *s)
 {
 	size_t	i;
 	size_t	count;
@@ -116,7 +116,7 @@ char	*ft_strdup(const char *s)
 	exit[count] = '\0';
 	return (exit);
 }
-/*
+
 en:
 This function dynamically allocates memory for the new string
 using malloc and then copy the content of the original string

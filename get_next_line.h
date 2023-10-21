@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 0
 #endif
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -22,11 +22,9 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strchr(const char *s, int c);
-char	*ft_strdup(const char *s);
-char	*ft_sep(const char *pre, char (*post)[BUFFER_SIZE + 1],ssize_t i);
 void	ft_bzero(void *s, size_t n);
 char	*get_next_line(int fd);
-char *ft_line(int fd, ssize_t reader,int *end ,char *midchar);
+char *ft_line(int fd, ssize_t reader,int *end ,char *midchar,int *end2);
 char	*ft_prechar(char const*full_line );
 char	*ft_postchar(char const *full_line);
 

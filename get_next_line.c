@@ -17,22 +17,23 @@ char	*get_next_line(int fd)
 	char		*exit_str;
 	static char	*midchar;
 	int end;
-	end = 0;
+	static int end2;
+
+	end = 0 ;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	
-	exit_str = ft_line (fd,1,&end,midchar);
+	exit_str = ft_line (fd,1,&end,midchar,&end2);
+	if (exit_str == NULL)
+		return NULL;
 	if (ft_strchr(exit_str,10) != NULL)
 	{
 		midchar = ft_postchar(exit_str);
 		return(ft_prechar(exit_str));
 	}
-	else
-		return (exit_str);
-
-
-	return (midchar = ft_postchar(exit_str));
+	else if (ft_strchr(exit_str,10) == NULL && end == 1)
+		end2 = 1;
+	return (exit_str);
 }
 char	*ft_postchar(char const *full_line)
 {
@@ -83,11 +84,13 @@ char	*ft_prechar(char const *full_line )
 }
 
 
-char *ft_line(int fd, ssize_t reader,int *end ,char *midchar)
+char *ft_line(int fd, ssize_t reader,int *end ,char *midchar,int *end2)
 {
 	char	*out_str;
 	char	*buffer;
 
+	if (*end2 == 1)
+		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE +1 , 1);
 	if (!buffer)
 		return (NULL);
@@ -98,17 +101,19 @@ char *ft_line(int fd, ssize_t reader,int *end ,char *midchar)
 	if (!out_str)
 		return (free(buffer),NULL);
 		
-	while (reader  > 0)
+	while (reader  > 0 )
 	{
 		reader = read(fd, buffer, BUFFER_SIZE);
-		if (reader == 0)
-			break;
 		if (reader < BUFFER_SIZE)
+		{
 			*end = 1;
+			if (reader == 0)
+				return (out_str);
+		}
 		if (reader == -1)
 		{
-			if (out_str)
-				free(out_str);
+			if (buffer)
+				free(buffer);
 			return (NULL);
 		}
 		out_str = ft_strjoin(out_str,buffer);
@@ -119,5 +124,7 @@ char *ft_line(int fd, ssize_t reader,int *end ,char *midchar)
 		if (ft_strchr(buffer, 10) == NULL && *end )
 			return (out_str);
 	}
-	return (NULL);	
+//	if (ft_strchr(buffer, 10) == NULL && *end )
+//			return (out_str);
+	return (out_str);	
 }	

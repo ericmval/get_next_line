@@ -20,9 +20,9 @@
 int main (void)
 {
  //   char *salida;
-    int veces = 143;
+    int veces = 1430;
     int i = 0;
-    int fd = open ("test2.txt", O_RDONLY);
+    int fd = open ("test.txt", O_RDONLY);
     if(fd == -1)
     {
         printf ("error al abrir archivo\n");
