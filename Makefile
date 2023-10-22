@@ -46,7 +46,10 @@ test:
 debug:
 	
 	gcc main.c  ${CFLAGS} -L ${NAME} ${SOURCES} -g -o test
-	
+
+leak:
+	clang -g -fsanitize=address ${NAME} ${SOURCES} main.c  -o testm	
+	./testm
 
 
 .PHONY: all clean fclean re test 

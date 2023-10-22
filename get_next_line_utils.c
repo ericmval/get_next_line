@@ -128,6 +128,7 @@ usando malloc y luego copia el contenido de la cadena original
  en la nueva área de memoria. Finalmente, devuelve un puntero
   a la nueva cadena duplicada.
 */
+/*
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
@@ -141,6 +142,7 @@ void	ft_bzero(void *s, size_t n)
 		i++;
 	}
 }
+*/
 /*
 int main (void)
 {

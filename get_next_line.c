@@ -99,32 +99,29 @@ char *ft_line(int fd, ssize_t reader,int *end ,char *midchar,int *end2)
 	else
 		out_str = ft_strjoin(midchar,"");
 	if (!out_str)
-		return (free(buffer),NULL);
-		
+		return (free(buffer),NULL); 	
 	while (reader  > 0 )
 	{
 		reader = read(fd, buffer, BUFFER_SIZE);
+		if (reader == 0 && *end == 0)
+				return (free(buffer),NULL);
 		if (reader < BUFFER_SIZE)
 		{
 			*end = 1;
 			if (reader == 0)
 				return (out_str);
+//			if (reader == 0 && !(*end))
+//				return (free(buffer),NULL);
+//			if (reader ==  0 && *end == 0 && midchar)
+//				return (ft_prechar(midchar));
 		}
 		if (reader == -1)
-		{
-			if (buffer)
-				free(buffer);
-			return (NULL);
-		}
+			return (free(out_str),NULL);
 		out_str = ft_strjoin(out_str,buffer);
-//		if (ft_strchr(out_str, 10) == NULL)
-//			out_str = ft_strjoin(out_str, buffer);
 		if (ft_strchr(out_str,10) != NULL)
 			return	(out_str);
 		if (ft_strchr(buffer, 10) == NULL && *end )
-			return (out_str);
+			return (free(buffer),out_str);
 	}
-//	if (ft_strchr(buffer, 10) == NULL && *end )
-//			return (out_str);
 	return (out_str);	
 }	
