@@ -11,7 +11,7 @@
 /* ************************************************************************** */
  
  #include "get_next_line.h"
-
+/*
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len;
@@ -41,7 +41,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (o_exit);
 }
 //junta 2 estrings
-
+*/
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -92,83 +92,32 @@ char	*ft_strchr(const char *s, int c)
 		return (exit);
 	return (NULL);
 }
-// devuleve puntero a la primera coincidencia
-// de c en s, si no encuentra nada devuelve null
 
-/*char	*ft_strdup(const char *s)
+char	*ft_strjoin(char *s1, char *s2,int frenum)
 {
-	size_t	i;
-	size_t	count;
+	size_t	len;
 	char	*exit;
+	int		i;
+	int		e;
 
-	i = 0;
-	count = 0;
-	while (s[i] != '\0')
-		i++;
-	exit = (char *)malloc(i + 1);
+	if (!s1 || !s2)
+			return (NULL);
+	i = -1;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	exit = (char *) ft_calloc (len + 1,1);
 	if (!exit)
 		return (NULL);
-	while (count < i)
+	while (s1[++i] != '\0')
+			exit[i] = s1[i];
+	e = -1;
+	while (s2[++e] != '\0')
 	{
-		exit[count] = s[count];
-		count++;
+		exit[i] = s2[e];
+		i++;
 	}
-	exit[count] = '\0';
+	if (frenum == 1 || frenum == 3)
+		free(s1);
+	if (frenum == 2 || frenum == 3)
+		free(s2);
 	return (exit);
 }
-
-en:
-This function dynamically allocates memory for the new string
-using malloc and then copy the content of the original string
-  in the new memory area. Finally, return a pointer
-   to the new duplicate string.
-esp:
-Esta función asigna memoria dinámicamente para la nueva cadena 
-usando malloc y luego copia el contenido de la cadena original
- en la nueva área de memoria. Finalmente, devuelve un puntero
-  a la nueva cadena duplicada.
-*/
-/*
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-	char	*mid;
-
-	i = 0;
-	mid = (char *)s;
-	while (i < n)
-	{
-		mid[i] = '\0';
-		i++;
-	}
-}
-*/
-/*
-int main (void)
-{
-	char test[19] = "canalla";
-	int i = 0;
-	ft_bzero(test,5);
-	while (i < 15)
-	{
-		printf("%c\n",test[i]);
-		printf("%p\n", test);
-		i++;
-	}
-	return (0);
-}
-*/
-/*
-en:
-sets all bytes of a block of memory to /0.
-You have to be careful with putting more holes than you need.
-has the block.
-s: is a pointer to the memory block you want to zero.
-n: is the number of bytes you want to set to zero.
-esp;
-pone a /0 todos los bytes de un  bloque de memoria.
-hay que tener cuidado con poner mas huecos de los que
-tiene el bloque.
-s: es un puntero al bloque de memoria que quieres poner a cero.
-n: es el número de bytes que quieres poner a cero. 
-*/

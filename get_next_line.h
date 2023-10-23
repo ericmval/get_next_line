@@ -18,13 +18,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2,int frenum);
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strchr(const char *s, int c);
 void	ft_bzero(void *s, size_t n);
 char	*get_next_line(int fd);
-char *ft_line(int fd, ssize_t reader,int *end ,char *midchar,int *end2);
+char *ft_newline(int fd,char *buffer,int *end,int reader);
 char	*ft_prechar(char const*full_line );
 char	*ft_postchar(char const *full_line);
 

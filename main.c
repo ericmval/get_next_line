@@ -23,11 +23,17 @@ int main (void)
     int veces = 30;
     int i = 0;
     int fd = open ("test.txt", O_RDONLY);
+    char    *ej1 = "1234";
+    char    *ej2 = "56789";
+
+    printf ("%s",ft_strjoin(ej1,ej2,0));
+
     if(fd == -1)
     {
         printf ("error al abrir archivo\n");
         return (-1);
     }
+
     printf("el fd es %d\n",fd);  
       
     while (i < veces)
