@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 1
 #endif
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -25,8 +25,8 @@ char	*ft_strchr(const char *s, int c);
 void	ft_bzero(void *s, size_t n);
 char	*get_next_line(int fd);
 char *ft_newline(int fd,char *buffer,int *end,int reader);
-char	*ft_prechar(char const*full_line );
-char	*ft_postchar(char const *full_line);
+char	*ft_prechar(char *full_line );
+char	*ft_postchar(char *full_line);
 
 
 #endif

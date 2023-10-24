@@ -20,9 +20,9 @@
 int main (void)
 {
  //   char *salida;
-    int veces = 30;
+    int veces = ;
     int i = 0;
-    int fd = open ("test.txt", O_RDONLY);
+    int fd = open ("empty.txt", O_RDONLY);
     char    *ej1 = "1234";
     char    *ej2 = "56789";
 
