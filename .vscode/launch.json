@@ -8,17 +8,17 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/Users/emartin2/0Work/get_next_line",
-      "program": "/Users/emartin2/0Work/get_next_line/test",
-      "MIMode": "lldb",
-      //"miDebuggerPath": "/usr/bin/lldb", // opcional
-      //"setupCommands": [ // comentado porque es específico para GDB
-      //  {
-      //    "description": "Enable pretty-printing for gdb",
-      //    "text": "-enable-pretty-printing",
-      //    "ignoreFailures": true
-      //  }
-      //]
+      "cwd": "/home/eric/Escritorio/get_next_line",
+      "program": "/home/eric/Escritorio/get_next_line/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
     }
   ]
 }

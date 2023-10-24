@@ -14,10 +14,7 @@ char *get_next_line(int fd)
         buffer = (char*) ft_calloc (BUFFER_SIZE +1 ,1);
     exit_str = ft_newline(fd,buffer,&end,BUFFER_SIZE);
     if (!exit_str)
-    {
-    //    free(buffer);
-        return(NULL);
-    }
+        return(ft_freezer(buffer,exit_str,0));
     if (end == 1 && ft_strchr(exit_str, 10 ) == NULL)
     {
         return (exit_str);
@@ -39,6 +36,8 @@ char *ft_newline(int fd,char *buffer,int *end,int reader)
     while (reader == BUFFER_SIZE)
     {
         reader = read(fd,buffer,BUFFER_SIZE);
+        if ( reader == -1)
+            return (NULL);
         if (reader == 0 && ft_strlen(exit_str) == 0)
             return NULL;
         if (*end == 0)
@@ -93,9 +92,14 @@ char *ft_prechar(char *full_line )
  return (mid);
 }
 
-
-
-
+void *ft_freezer(char *liber1,char *liber2, int lib)
+{
+    if (lib == 111 || lib == 110)
+        free(liber1);
+    if (lib == 111 || lib == 101)
+        free(liber2);
+    return (NULL);
+}
 
 
 

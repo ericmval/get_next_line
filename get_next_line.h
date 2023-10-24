@@ -27,6 +27,7 @@ char	*get_next_line(int fd);
 char *ft_newline(int fd,char *buffer,int *end,int reader);
 char	*ft_prechar(char *full_line );
 char	*ft_postchar(char *full_line);
+void *ft_freezer(char *liber1,char *liber2, int lib);
 
 
 #endif

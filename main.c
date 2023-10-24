@@ -20,25 +20,20 @@
 int main (void)
 {
  //   char *salida;
-    int veces = ;
+    int veces = 2;
     int i = 0;
     int fd = open ("empty.txt", O_RDONLY);
-    char    *ej1 = "1234";
-    char    *ej2 = "56789";
+    char    *out;
 
-    printf ("%s",ft_strjoin(ej1,ej2,0));
 
-    if(fd == -1)
-    {
-        printf ("error al abrir archivo\n");
-        return (-1);
-    }
 
     printf("el fd es %d\n",fd);  
       
     while (i < veces)
     {
-        printf ("%s",get_next_line(fd)); 
+        out = get_next_line(fd);
+        printf ("%s",out); 
+        free (out);
         i++;
     }
     close (fd);
