@@ -1,8 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emartin2 <emartin2@student.42barcelona.co  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/13 20:07:07 by emartin2          #+#    #+#             */
+/*   Updated: 2023/10/13 20:07:18 by emartin2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 10
+#endif
 #ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>

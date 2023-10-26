@@ -1,4 +1,3 @@
-
 #include "get_next_line.h"
 
 char	*new_remain(char *line, char *remain)
@@ -81,6 +80,7 @@ char	*get_next_line(int fd)
 	int			end;
 
 	end = 0;
+    
 	if (BUFFER_SIZE <= 0 || fd < 0 )
 		return (NULL);
 	if (remain)
@@ -98,3 +98,16 @@ char	*get_next_line(int fd)
 	}
 	return (NULL);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

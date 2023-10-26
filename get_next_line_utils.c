@@ -1,4 +1,15 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emartin2 <emartin2@student.42barcelona.co  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/13 20:08:19 by emartin2          #+#    #+#             */
+/*   Updated: 2023/10/13 20:08:24 by emartin2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+ 
 #include "get_next_line.h"
 
 int	ft_strlen(char *str)
@@ -12,54 +23,7 @@ int	ft_strlen(char *str)
 		len++;
 	return (len);
 }
-/*
-char	*ft_strdup(char *src)
-{
-	char	*dest;
-	int		len;
-	int		i;
 
-	i = 0;
-	len = ft_strlen(src);
-	dest = (char *) malloc((len + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
-	while (i < len)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
-}
-*/
-/*
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*str;
-	int		total;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (s2 == NULL)
-		return (s1);
-	total = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = (char *) malloc(total * sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	while (s1[j])
-		str[i++] = s1[j++];
-	j = 0;
-	while (s2[j])
-		str[i++] = s2[j++];
-	str[i] = 0;
-	free(s1);
-	free(s2);
-	return (str);
-}
-*/
 int	is_nl(char *s)
 {
 	int	i;
@@ -104,24 +68,7 @@ char	*ft_strjoin(char *s1, char *s2,int frenum)
 		free(s2);
 	return (exit);
 }
-/*
-char	*ft_strchr(const char *s, int c)
-{
-	char	*exit;
 
-	c = (char) c;
-	exit = (char *) s;
-	while (*exit != '\0')
-	{
-		if (*exit == c)
-			return (exit);
-		exit++;
-	}
-	if (c == '\0')
-		return (exit);
-	return (NULL);
-}
-*/
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	size_t			ent;
@@ -140,4 +87,3 @@ void	*ft_calloc(size_t nmemb, size_t size)
     }
 	return ((void *) b);
 }
-
