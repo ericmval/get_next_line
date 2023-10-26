@@ -20,9 +20,9 @@
 int main (void)
 {
  //   char *salida;
-    int veces = 2;
+    int veces = 42;
     int i = 0;
-    int fd = open ("empty.txt", O_RDONLY);
+    int fd = open ("test.txt", O_RDONLY);
     char    *out;
 
 
@@ -33,10 +33,10 @@ int main (void)
     {
         out = get_next_line(fd);
         printf ("%s",out); 
-        free (out);
         i++;
     }
     close (fd);
+    free(out);
     return (0);
     
 }

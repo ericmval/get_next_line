@@ -1,96 +1,79 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: emartin2 <emartin2@student.42barcelona.co  +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/13 20:08:19 by emartin2          #+#    #+#             */
-/*   Updated: 2023/10/13 20:08:24 by emartin2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
- 
- #include "get_next_line.h"
-/*
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	len;
-	char	*exit;
-	char	*o_exit;
 
-	if (!s1 || !s2)
-		return (NULL);
-	len = ft_strlen(s1) + ft_strlen(s2);
-	exit = (char *) malloc (len + 1);
-	if (!exit)
-		return (NULL);
-	o_exit = exit;
-	while (*s1)
-	{
-		*exit = *s1;
-		exit++;
-		s1++;
-	}
-	while (*s2)
-	{
-		*exit = *s2;
-		exit++;
-		s2++;
-	}
-	*exit = '\0';
-	return (o_exit);
-}
-//junta 2 estrings
-*/
-size_t	ft_strlen(const char *s)
+#include "get_next_line.h"
+
+int	ft_strlen(char *str)
 {
-	size_t	i;
+	int	len;
+
+	len = 0;
+	if (str == NULL)
+		return (0);
+	while (*str++)
+		len++;
+	return (len);
+}
+/*
+char	*ft_strdup(char *src)
+{
+	char	*dest;
+	int		len;
+	int		i;
 
 	i = 0;
-	while (*s != '\0')
-	{
-		i++;
-		s++;
-	}
-	return (i);
-}
-// nide el largo de un string
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	size_t			ent;
-	unsigned char	*b;
-    size_t          i;
-
-    i = 0;
-	ent = nmemb * size;
-	b = (unsigned char *) malloc(ent);
-	if (!b)
+	len = ft_strlen(src);
+	dest = (char *) malloc((len + 1) * sizeof(char));
+	if (!dest)
 		return (NULL);
-    while (i < ent)
-    {
-        b[i] = '\0';
-        i++;
-    }
-	return ((void *) b);
-}
-//reserva memoria y la llena de 000
-
-char	*ft_strchr(const char *s, int c)
-{
-	char	*exit;
-
-	c = (char) c;
-	exit = (char *) s;
-	while (*exit != '\0')
+	while (i < len)
 	{
-		if (*exit == c)
-			return (exit);
-		exit++;
+		dest[i] = src[i];
+		i++;
 	}
-	if (c == '\0')
-		return (exit);
-	return (NULL);
+	dest[i] = 0;
+	return (dest);
+}
+*/
+/*
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*str;
+	int		total;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (s2 == NULL)
+		return (s1);
+	total = ft_strlen(s1) + ft_strlen(s2) + 1;
+	str = (char *) malloc(total * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (s1[j])
+		str[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		str[i++] = s2[j++];
+	str[i] = 0;
+	free(s1);
+	free(s2);
+	return (str);
+}
+*/
+int	is_nl(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s == NULL)
+		return (0);
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	*ft_strjoin(char *s1, char *s2,int frenum)
@@ -100,8 +83,8 @@ char	*ft_strjoin(char *s1, char *s2,int frenum)
 	int		i;
 	int		e;
 
-	if (!s1 || !s2)
-			return (NULL);
+	if (!s2)
+			return (s1);
 	i = -1;
 	len = ft_strlen(s1) + ft_strlen(s2);
 	exit = (char *) ft_calloc (len + 1,1);
@@ -121,3 +104,40 @@ char	*ft_strjoin(char *s1, char *s2,int frenum)
 		free(s2);
 	return (exit);
 }
+/*
+char	*ft_strchr(const char *s, int c)
+{
+	char	*exit;
+
+	c = (char) c;
+	exit = (char *) s;
+	while (*exit != '\0')
+	{
+		if (*exit == c)
+			return (exit);
+		exit++;
+	}
+	if (c == '\0')
+		return (exit);
+	return (NULL);
+}
+*/
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t			ent;
+	unsigned char	*b;
+    size_t          i;
+
+    i = 0;
+	ent = nmemb * size;
+	b = (unsigned char *) malloc(ent);
+	if (!b)
+		return (NULL);
+    while (i < ent)
+    {
+        b[i] = '\0';
+        i++;
+    }
+	return ((void *) b);
+}
+

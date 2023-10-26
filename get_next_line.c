@@ -1,115 +1,100 @@
+
 #include "get_next_line.h"
-char *get_next_line(int fd)
-{
-    char  *exit_str;
-    static char *buffer;
-    int    end;
-    char    *mid;
 
-    end = 0;
-    exit_str = NULL;
-    if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
-        return (free(exit_str),NULL);
-    if (!buffer)
-        buffer = (char*) ft_calloc (BUFFER_SIZE +1 ,1);
-    exit_str = ft_newline(fd,buffer,&end,BUFFER_SIZE);
-    if (!exit_str)
-        return(ft_freezer(buffer,exit_str,0));
-    if (end == 1 && ft_strchr(exit_str, 10 ) == NULL)
-    {
-        return (exit_str);
-    }
-    mid = ft_prechar(exit_str);
-    buffer = ft_postchar(exit_str);
-    return (mid);
- //   return(free(exit_str),mid);
-}
-char *ft_newline(int fd,char *buffer,int *end,int reader)
+char	*new_remain(char *line, char *remain)
 {
-    char *exit_str;
-    
-    exit_str = buffer;
-//    exit_str = ft_strjoin(buffer, "",0);
-    buffer =  ft_calloc (BUFFER_SIZE +1 ,1);
-    if (!buffer)
-        return(free(exit_str),NULL);
-    while (reader == BUFFER_SIZE)
-    {
-        reader = read(fd,buffer,BUFFER_SIZE);
-        if ( reader == -1)
-            return (NULL);
-        if (reader == 0 && ft_strlen(exit_str) == 0)
-            return NULL;
-        if (*end == 0)
-            exit_str = ft_strjoin(exit_str,buffer,1);
-        if (ft_strchr(exit_str,10) != NULL)
-            return (exit_str);
-    }
-    *end = 1;
-    return (exit_str);
-}
-char *ft_postchar(char *full_line)
-{
-    char *mid;
-    ssize_t n;
-    ssize_t i;
-    i = 0;
 
-    n = ft_strlen(full_line);
-    while (i <= n && (full_line[i] != '\n'))
-        i++;
-    i++;
-    mid = ft_calloc (n -i + 1,1);
-    n = 0;
-    while (i < (unsigned int)ft_strlen(full_line))
-    {
-        mid[n] = full_line[i];
-        i++;
-        n++;
-    }
-    mid[n] = '\0';
-    return (mid);
-}
-char *ft_prechar(char *full_line )
-{
- char *mid;
- ssize_t n;
- ssize_t i;
+	int		i;
+	char	*new;
 
- i = 0;
- n = ft_strlen(full_line);
- while (i < n && (full_line[i] != '\n'))
-  i++;
- mid = ft_calloc (i+ 2,1);
- n = 0;
- while (n <= i)
- {
-  mid[n] = full_line[n];
-  n++;
- }
- mid[n] = '\0';
-// free(full_line);
- return (mid);
+
+	i = 0;
+	if (is_nl(line) == 0)
+	{
+		free(remain);
+		return (NULL);
+	}
+	while (line[i])
+	{
+		if (line[i++] == '\n')
+			break ;
+	}
+	if (line[i] == 0)
+	{
+		free(remain);
+		return (0);
+	}
+	new = ft_strjoin("", line + i, 0);
+	free(remain);
+	return (new);
 }
 
-void *ft_freezer(char *liber1,char *liber2, int lib)
+char	*new_line(char *line)
 {
-    if (lib == 111 || lib == 110)
-        free(liber1);
-    if (lib == 111 || lib == 101)
-        free(liber2);
-    return (NULL);
+	int		len;
+	int		i;
+	char	*new;
+
+	len = 0;
+	i = 0;
+	if (is_nl(line) == 0)
+		return (line);
+	while (line[len] != '\n')
+		len++;
+	len++;
+	new = (char *) malloc(len + 1);
+	len = 0;
+	while (line[len] != '\n')
+		new[i++] = line[len++];
+	new[i++] = '\n';
+	new[i] = 0;
+	free(line);
+	return (new);
 }
 
+char	*read_file(int fd, int *end)
+{
+	char	*readed;
+	int		nb;
+	char	*tmp;
 
+	readed = (char *) ft_calloc(BUFFER_SIZE + 1, 1);
+	nb = read(fd, readed, BUFFER_SIZE);
+	if (nb <= 0)
+	{
+		*end = 1;
+		free(readed);
+		return (NULL);
+	}
+	if (nb < BUFFER_SIZE)
+	{
+		tmp = ft_strjoin ("",readed,2);
+		return (tmp);
+	}
+	return (readed);
+}
 
+char	*get_next_line(int fd)
+{
+	static char	*remain = NULL;
+	char		*line;
+	int			end;
 
-
-
-
-
-
-
-
-
-
+	end = 0;
+	if (BUFFER_SIZE <= 0 || fd < 0 )
+		return (NULL);
+	if (remain)
+	line = ft_strjoin("",remain,0);
+	else
+		line = read_file(fd, &end);
+	while (fd >= 0)
+	{
+		if (is_nl(line) || end)
+		{
+			remain = new_remain(line, remain);
+			return (new_line(line));
+		}
+		line = ft_strjoin(line, read_file(fd, &end),3);
+	}
+	return (NULL);
+}
