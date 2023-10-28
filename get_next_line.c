@@ -6,7 +6,6 @@ char	*new_remain(char *line, char *remain)
 	int		i;
 	char	*new;
 
-
 	i = 0;
 	if (is_nl(line) == 0)
 	{
@@ -62,6 +61,8 @@ char	*read_file(int fd, int *end)
 	if (nb <= 0)
 	{
 		*end = 1;
+		if (nb == -1)
+			*end = -1;
 		free(readed);
 		return (NULL);
 	}
@@ -87,6 +88,9 @@ char	*get_next_line(int fd)
 	line = ft_strjoin("",remain,0);
 	else
 		line = read_file(fd, &end);
+//	if (end == -1)
+//		return (NULL);
+
 	while (fd >= 0)
 	{
 		if (is_nl(line) || end)
@@ -95,6 +99,11 @@ char	*get_next_line(int fd)
 			return (new_line(line));
 		}
 		line = ft_strjoin(line, read_file(fd, &end),3);
+//		if (end == -1)
+//		{
+	//		free (remain);
+//			return (NULL);
+//		}
 	}
 	return (NULL);
 }
