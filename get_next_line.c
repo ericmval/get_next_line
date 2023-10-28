@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emartin2 <emartin2@student.42barcelona.co  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/13 20:07:51 by emartin2          #+#    #+#             */
+/*   Updated: 2023/10/13 20:07:55 by emartin2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*new_remain(char *line, char *remain)
+char	*ft_new_remain(char *line, char *remain)
 {
-
 	int		i;
 	char	*new;
 
 	i = 0;
-	if (is_nl(line) == 0)
+	if (ft_is_nl(line) == 0)
 	{
 		free(remain);
 		return (NULL);
@@ -27,7 +38,7 @@ char	*new_remain(char *line, char *remain)
 	return (new);
 }
 
-char	*new_line(char *line)
+char	*ft_new_line(char *line)
 {
 	int		len;
 	int		i;
@@ -35,7 +46,7 @@ char	*new_line(char *line)
 
 	len = 0;
 	i = 0;
-	if (is_nl(line) == 0)
+	if (ft_is_nl(line) == 0)
 		return (line);
 	while (line[len] != '\n')
 		len++;
@@ -50,7 +61,7 @@ char	*new_line(char *line)
 	return (new);
 }
 
-char	*read_file(int fd, int *end)
+char	*ft_read_file(int fd, int *end)
 {
 	char	*readed;
 	int		nb;
@@ -68,7 +79,7 @@ char	*read_file(int fd, int *end)
 	}
 	if (nb < BUFFER_SIZE)
 	{
-		tmp = ft_strjoin ("",readed,2);
+		tmp = ft_strjoin ("", readed, 2);
 		return (tmp);
 	}
 	return (readed);
@@ -81,45 +92,29 @@ char	*get_next_line(int fd)
 	int			end;
 
 	end = 0;
-    
-	if (BUFFER_SIZE <= 0 || fd < 0 )
+	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
 	if (remain)
-	line = ft_strjoin("",remain,0);
+		line = ft_strjoin("", remain, 0);
 	else
-		line = read_file(fd, &end);
-//	if (end == -1)
-//	{
-//		return (NULL);
-//	}
+		line = ft_read_file(fd, &end);
 	while (fd >= 0)
 	{
-		if (is_nl(line) || end)
+		if (ft_is_nl(line) || end)
 		{
-			remain = new_remain(line, remain);
-			return (new_line(line));
+			remain = ft_new_remain(line, remain);
+			return (ft_new_line(line));
 		}
-		line = ft_strjoin(line, read_file(fd, &end),3);
+		line = ft_strjoin(line, ft_read_file(fd, &end), 3);
 		if (end == -1)
-		{
-			free (remain);
-			remain = NULL;
-			free (line);
-			return (NULL);
-		}
+			return (remain = ft_freezer(remain, line), NULL);
 	}
 	return (NULL);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+char	*ft_freezer(char *remain, char *line)
+{
+	free (remain);
+	free (line);
+	return (NULL);
+}
