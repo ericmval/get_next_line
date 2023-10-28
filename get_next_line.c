@@ -89,8 +89,9 @@ char	*get_next_line(int fd)
 	else
 		line = read_file(fd, &end);
 //	if (end == -1)
+//	{
 //		return (NULL);
-
+//	}
 	while (fd >= 0)
 	{
 		if (is_nl(line) || end)
@@ -99,11 +100,13 @@ char	*get_next_line(int fd)
 			return (new_line(line));
 		}
 		line = ft_strjoin(line, read_file(fd, &end),3);
-//		if (end == -1)
-//		{
-	//		free (remain);
-//			return (NULL);
-//		}
+		if (end == -1)
+		{
+			free (remain);
+			remain = NULL;
+			free (line);
+			return (NULL);
+		}
 	}
 	return (NULL);
 }
