@@ -62,9 +62,9 @@ char	*ft_strjoin(char *s1, char *s2, int frenum)
 		exit[i] = s2[e];
 		i++;
 	}
-	if (frenum == 1 || frenum == 3)
+	if ((frenum == 1 || frenum == 3) && s1)
 		free(s1);
-	if (frenum == 2 || frenum == 3)
+	if ((frenum == 2 || frenum == 3) && s2)
 		free(s2);
 	return (exit);
 }

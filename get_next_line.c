@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	int			end;
 
 	end = 0;
-	if (BUFFER_SIZE <= 0 || fd < 0)
+	if (BUFFER_SIZE <= 0 || fd < 0 )
 		return (NULL);
 	if (remain)
 		line = ft_strjoin("", remain, 0);
@@ -114,7 +114,9 @@ char	*get_next_line(int fd)
 
 char	*ft_freezer(char *remain, char *line)
 {
-	free (remain);
-	free (line);
+	if (remain)
+		free (remain);
+	if (line)
+		free (line);
 	return (NULL);
 }

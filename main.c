@@ -22,7 +22,7 @@ int main (void)
  //   char *salida;
     int veces = 42;
     int i = 0;
-    int fd = open ("test.txt", O_RDONLY);
+    int fd = open ("multiple_nl.txt", O_RDONLY);
     char    *out;
 
 
