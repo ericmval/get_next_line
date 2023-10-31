@@ -3,41 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin2 <emartin2@student.42barcelona.    +#+  +:+       +#+        */
+/*   By: emartin2 <emartin2@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 20:08:19 by emartin2          #+#    #+#             */
-/*   Updated: 2023/11/01 00:04:28 by emartin2         ###   ########.fr       */
+/*   Updated: 2023/10/28 13:50:03 by emartin2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+int	ft_strlen(char *str)
 {
-	char		*str;
-	size_t		i;
-	size_t		e;
+	int	len;
 
-	i = 0;
-	if (!s1)
-	{
-		s1 = malloc(1 * sizeof(char));
-		if (!s1)
-			return (NULL);
-		s1[0] = '\0';
-	}
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
-		return (ft_freemarc(&s1));
-	e = 0;
-	while (s1[e] != '\0')
-		str[i++] = s1[e++];
-	e = 0;
-	while (s2[e])
-		str[i++] = s2[e++];
-	str[i] = '\0';
-	free(s1);
-	return (str);
+	len = 0;
+	if (str == NULL)
+		return (0);
+	while (*str++)
+		len++;
+	return (len);
 }
 
 int	ft_is_nl(char *s)
@@ -55,16 +39,34 @@ int	ft_is_nl(char *s)
 	}
 	return (0);
 }
-size_t	ft_strlen(const char *s)
-{
-	int	i;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
+char	*ft_strjoin(char *s1, char *s2, int frenum)
+{
+	size_t	len;
+	char	*exit;
+	int		i;
+	int		e;
+
+	if (!s2)
+		return (s1);
+	i = -1;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	exit = (char *) ft_calloc (len + 1, 1);
+	if (!exit)
+		return (NULL);
+	while (s1[++i] != '\0')
+		exit[i] = s1[i];
+	e = -1;
+	while (s2[++e] != '\0')
+	{
+		exit[i] = s2[e];
 		i++;
-	return (i);
+	}
+	if ((frenum == 1 || frenum == 3) && s1)
+		free(s1);
+	if ((frenum == 2 || frenum == 3) && s2)
+		free(s2);
+	return (exit);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)

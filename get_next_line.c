@@ -3,120 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emartin2 <emartin2@student.42barcelona.co  +#+  +:+       +#+        */
+/*   By: emartin2 <emartin2@student.42barcelona.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 20:07:51 by emartin2          #+#    #+#             */
-/*   Updated: 2023/10/13 20:07:55 by emartin2         ###   ########.fr       */
+/*   Updated: 2023/11/01 00:08:02 by emartin2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_new_remain(char *line, char *remain)
+char	*ft_freemarc(char **str)
 {
-	int		i;
-	char	*new;
-
-	i = 0;
-	if (ft_is_nl(line) == 0)
-	{
-		free(remain);
-		return (NULL);
-	}
-	while (line[i])
-	{
-		if (line[i++] == '\n')
-			break ;
-	}
-	if (line[i] == 0)
-	{
-		free(remain);
-		return (0);
-	}
-	new = ft_strjoin("", line + i, 0);
-	free(remain);
-	return (new);
+	free (*str);
+	*str = NULL;
+	return (NULL);
 }
 
-char	*ft_new_line(char *line)
+char	*ft_read_file(int fd, char *buff)
 {
-	int		len;
-	int		i;
-	char	*new;
+	char	*buffer;
+	int		reader;
 
-	len = 0;
-	i = 0;
-	if (ft_is_nl(line) == 0)
-		return (line);
-	while (line[len] != '\n')
-		len++;
-	len++;
-	new = (char *) malloc(len + 1);
-	len = 0;
-	while (line[len] != '\n')
-		new[i++] = line[len++];
-	new[i++] = '\n';
-	new[i] = 0;
-	free(line);
-	return (new);
+	buffer = ft_calloc(BUFFER_SIZE + 1 , 1);
+	if (!buffer)
+		return (ft_freemarc(&buff));
+	reader = 1;
+	while (!ft_is_nl(buffer) && reader != 0)
+	{
+		reader = read(fd, buffer, BUFFER_SIZE);
+		if (reader == -1)
+		{
+			free(buffer);
+			return (ft_freemarc(&buff));
+		}
+		if (reader > 0)
+		{
+			buffer[reader] = '\0';
+			buff = ft_strjoin(buff, buffer);
+		}
+	}
+	free(buffer);
+	return (buff);
 }
-
-char	*ft_read_file(int fd, int *end)
+char	*ft_prestr(char *s1, char c)
 {
-	char	*readed;
-	int		nb;
-	char	*tmp;
+	int		i;
+	char	*out;
 
-	readed = (char *) ft_calloc(BUFFER_SIZE + 1, 1);
-	nb = read(fd, readed, BUFFER_SIZE);
-	if (nb <= 0)
-	{
-		*end = 1;
-		if (nb == -1)
-			*end = -1;
-		free(readed);
+	i = 0;
+	if (!s1)
 		return (NULL);
-	}
-	if (nb < BUFFER_SIZE)
+	while (s1[i] != '\0' && s1[i] != c)
+		i++;
+	if (s1[i] != '\0')
+		i++;
+	out = malloc(sizeof(char) * (i + 1));
+	if (!out)
+		return (NULL);
+	i = -1;
+	while (s1[++i] != '\0' && s1[i] != c)
+		out[i] = s1[i];
+	if (s1[i] == c)
 	{
-		tmp = ft_strjoin ("", readed, 2);
-		return (tmp);
+		out[i] = s1[i];
+		i++;
 	}
-	return (readed);
+	out[i] = '\0';
+	return (out);
+}
+char	*ft_poststr(char *buff)
+{
+	int		i;
+	int		e;
+	char	*reminder;
+
+	i = 0;
+	e = 0;
+	while (buff[i] != '\n' && buff[i] != '\0')
+		i++;
+	if (!buff[i])
+		return (ft_freemarc(&buff));
+	reminder = ft_calloc((ft_strlen(buff) - i + 1) ,1 );
+	if (!reminder)
+		return (ft_freemarc(&buff));
+	while (buff[++i] != '\0')
+		reminder[e++] = buff[i];
+	if (e == 0)
+	{
+		free(reminder);
+		return (ft_freemarc(&buff));
+	}
+	ft_freemarc(&buff);
+	return (reminder);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*remain = NULL;
+	static char	*buff = NULL;
 	char		*line;
-	int			end;
 
-	end = 0;
-	if (BUFFER_SIZE <= 0 || fd < 0 )
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (remain)
-		line = ft_strjoin("", remain, 0);
-	else
-		line = ft_read_file(fd, &end);
-	while (fd >= 0)
-	{
-		if (ft_is_nl(line) || end)
-		{
-			remain = ft_new_remain(line, remain);
-			return (ft_new_line(line));
-		}
-		line = ft_strjoin(line, ft_read_file(fd, &end), 3);
-		if (end == -1)
-			return (remain = ft_freezer(remain, line), NULL);
-	}
-	return (NULL);
-}
-
-char	*ft_freezer(char *remain, char *line)
-{
-	if (remain)
-		free (remain);
-	if (line)
-		free (line);
-	return (NULL);
+	buff = ft_read_file(fd, buff);
+	if (!buff)
+		return (NULL);
+	line = ft_prestr(buff, '\n');
+	if (!line)
+		return (ft_freemarc(&buff));
+	buff = ft_poststr(buff);
+	return (line);
 }
